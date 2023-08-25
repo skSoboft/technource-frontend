@@ -1,0 +1,33 @@
+import React, { useState } from 'react';
+import PostList from '../components/Dashboard/PostList'; 
+import PostEditor from '../components/Dashboard/PostEditor'; 
+import { Button } from 'react-bootstrap';
+
+const AdminDashboard = ({ posts, onDelete, onSave }) => {
+  const [editingPost, setEditingPost] = useState(null);
+
+  const handleEditPost = (post) => {
+    setEditingPost(post);
+  };
+
+  const handleCreateOrUpdatePost = (newPost) => {
+    onSave(newPost);
+    setEditingPost(null);
+  };
+
+  return (
+    <div className="admin-dashboard">
+      <h2>Admin Dashboard</h2>
+      <Button onClick={() => setEditingPost({})}>Create New Post</Button>
+      {editingPost && (
+        <PostEditor
+          post={editingPost}
+          onSubmit={handleCreateOrUpdatePost}
+        />
+      )}
+      <PostList posts={posts} onDelete={onDelete} onEdit={handleEditPost} />
+    </div>
+  );
+};
+
+export default AdminDashboard;
